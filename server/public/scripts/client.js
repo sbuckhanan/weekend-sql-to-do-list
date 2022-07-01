@@ -16,7 +16,7 @@ function createTodo() {
 	};
 	$.ajax({
 		type: 'POST',
-		url: '/tasks',
+		url: '/todos',
 		data: newTask,
 	})
 		.then(function (response) {
@@ -31,7 +31,7 @@ function createTodo() {
 function getList() {
 	$.ajax({
 		type: 'GET',
-		url: '/tasks',
+		url: '/todos',
 	})
 		.then(function (response) {
 			console.log(response);
