@@ -31,4 +31,44 @@ router.post('/', (req, res) => {
 		});
 });
 
+router.put('/:id', (req, res) => {
+	const todoId = req.params.id;
+	const updateTodo = req.body;
+	let queryText;
+	console.log(updateTodo);
+	console.log(todoId);
+	if (updateTodo.complete === 'true') {
+		queryText = `
+        UPDATE "todos" SET "complete" = true WHERE id = $1;`;
+	} else {
+		queryText = `UPDATE "todos" SET "complete" = false WHERE id = $1;`;
+	}
+	console.log(queryText);
+	pool
+		.query(queryText, [todoId])
+		.then((result) => {
+			res.send(result.rows);
+			console.log(result);
+		})
+		.catch((error) => {
+			console.log('There was an error in POST /todos', error);
+			res.sendStatus(500);
+		});
+});
+
+router.delete('/:id', (req, res) => {
+	const todoId = req.params.id;
+	let queryText = `DELETE FROM "todos" WHERE id = $1;`;
+	pool
+		.query(queryText, [todoId])
+		.then((result) => {
+			res.send(result.rows);
+			console.log(result);
+		})
+		.catch((error) => {
+			console.log('There was an error in POST /todos', error);
+			res.sendStatus(500);
+		});
+});
+
 module.exports = router;

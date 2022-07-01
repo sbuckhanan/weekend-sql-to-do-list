@@ -47,14 +47,14 @@ function renderToDom(serverInfo) {
 	for (let i of serverInfo) {
 		if (i.complete) {
 			$('.todoHome').append(`
-			<li id="taskComplete"><input type="checkbox" class="checkBox" checked><span class="moveRight">${i.name}</span>
-				<i class="fa-solid fa-trash-can"></i>
+			<li id="taskComplete"><input type="checkbox" class="checkBox" checked data-id=${i.id}><span class="moveRight">${i.name}</span>
+				<i class="fa-solid fa-trash-can" data-id=${i.id}></i>
 			</li>
 		`);
 		} else {
 			$('.todoHome').append(`
-			<li><input type="checkbox" class="checkBox"><span class="moveRight">${i.name}</span>
-				<i class="fa-solid fa-trash-can"></i>
+			<li><input type="checkbox" class="checkBox" data-id=${i.id}><span class="moveRight">${i.name}</span>
+				<i class="fa-solid fa-trash-can" data-id=${i.id}></i>
 			</li>
 		`);
 		}
@@ -62,15 +62,44 @@ function renderToDom(serverInfo) {
 }
 
 function handleCheckBox() {
+	let complete;
+	const todoId = $(this).data('id');
+	console.log(todoId);
 	if ($(this).is(':checked')) {
-		$(this).parent().attr('id', 'taskComplete');
+		complete = true;
 		// console.log('Clicked Check');
 	} else if (!$(this).is(':checked')) {
-		$(this).parent().removeAttr('id');
+		complete = false;
 	}
+	// console.log(complete);
+	$.ajax({
+		type: 'PUT',
+		url: `/todos/${todoId}`,
+		data: {
+			complete: complete,
+		},
+	})
+		.then(() => {
+			getList();
+		})
+		.catch((error) => {
+			console.log('Error updating to done', error);
+		});
 }
 
 function handleDelete() {
 	console.log('Clicked Delete');
-	$(this).parent().remove();
+	const todoId = $(this).data('id');
+
+	$.ajax({
+		type: 'DELETE',
+		url: `/todos/${todoId}`,
+	})
+		.then(() => {
+			console.log('It is gone!');
+			getList();
+		})
+		.catch((error) => {
+			console.log('Error updating to done', error);
+		});
 }
