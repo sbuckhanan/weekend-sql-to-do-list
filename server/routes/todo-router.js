@@ -23,7 +23,7 @@ router.post('/', (req, res) => {
 		.query(queryText, [newTodo.name, newTodo.complete])
 		.then((result) => {
 			res.sendStatus(202);
-			console.log(result);
+			// console.log(result);
 		})
 		.catch((error) => {
 			console.log('There was an error in POST /todos', error);
@@ -48,7 +48,7 @@ router.put('/:id', (req, res) => {
 		.query(queryText, [todoId])
 		.then((result) => {
 			res.send(result.rows);
-			console.log(result);
+			// console.log(result);
 		})
 		.catch((error) => {
 			console.log('There was an error in POST /todos', error);
@@ -63,7 +63,7 @@ router.delete('/:id', (req, res) => {
 		.query(queryText, [todoId])
 		.then((result) => {
 			res.send(result.rows);
-			console.log(result);
+			// console.log(result);
 		})
 		.catch((error) => {
 			console.log('There was an error in POST /todos', error);
