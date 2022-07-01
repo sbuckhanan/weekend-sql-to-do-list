@@ -26,6 +26,7 @@ function createTodo() {
 		.catch(function (error) {
 			console.log(error);
 		});
+	$('.todoInput').val('');
 }
 
 function getList() {

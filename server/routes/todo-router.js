@@ -3,7 +3,7 @@ const router = express.Router();
 const pool = require('../modules/pool.js');
 
 router.get('/', (req, res) => {
-	const queryText = 'SELECT * FROM todos;';
+	const queryText = 'SELECT * FROM todos ORDER BY "complete";';
 	pool
 		.query(queryText)
 		.then((result) => {
@@ -35,15 +35,15 @@ router.put('/:id', (req, res) => {
 	const todoId = req.params.id;
 	const updateTodo = req.body;
 	let queryText;
-	console.log(updateTodo);
-	console.log(todoId);
+	// console.log(updateTodo);
+	// console.log(todoId);
 	if (updateTodo.complete === 'true') {
 		queryText = `
         UPDATE "todos" SET "complete" = true WHERE id = $1;`;
 	} else {
 		queryText = `UPDATE "todos" SET "complete" = false WHERE id = $1;`;
 	}
-	console.log(queryText);
+	// console.log(queryText);
 	pool
 		.query(queryText, [todoId])
 		.then((result) => {
