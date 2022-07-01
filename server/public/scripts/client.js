@@ -60,3 +60,17 @@ function renderToDom(serverInfo) {
 		}
 	}
 }
+
+function handleCheckBox() {
+	if ($(this).is(':checked')) {
+		$(this).parent().attr('id', 'taskComplete');
+		// console.log('Clicked Check');
+	} else if (!$(this).is(':checked')) {
+		$(this).parent().removeAttr('id');
+	}
+}
+
+function handleDelete() {
+	console.log('Clicked Delete');
+	$(this).parent().remove();
+}
