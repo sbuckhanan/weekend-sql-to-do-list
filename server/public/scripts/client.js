@@ -49,13 +49,13 @@ function renderToDom(serverInfo) {
 		if (i.complete) {
 			$('.todoHome').append(`
 			<li id="taskComplete"><input type="checkbox" class="checkBox" checked data-id=${i.id}><span class="moveRight">${i.name}</span>
-				<i class="fa-solid fa-trash-can" data-id=${i.id}></i>
+				<i class="fa-solid fa-trash-can" data-id=${i.id} data-toggle="modal" data-target="#exampleModal"></i>
 			</li>
 		`);
 		} else {
 			$('.todoHome').append(`
 			<li><input type="checkbox" class="checkBox" data-id=${i.id}><span class="moveRight">${i.name}</span>
-				<i class="fa-solid fa-trash-can" data-id=${i.id}></i>
+				<i class="fa-solid fa-trash-can" data-id=${i.id} data-toggle="modal" data-target="#exampleModal"></i>
 			</li>
 		`);
 		}
