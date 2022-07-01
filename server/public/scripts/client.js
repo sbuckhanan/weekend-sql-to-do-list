@@ -4,9 +4,12 @@ function onReady() {
 	console.log('We are ready');
 	getList();
 	$(document).on('click', '.checkBox', handleCheckBox);
-	$(document).on('click', '.fa-trash-can', handleDelete);
+	$(document).on('click', '.fa-trash-can', getIdOnClick);
+	$('.btn-danger').on('click', handleDelete);
 	$('.addButton').on('click', createTodo);
 }
+
+let idHolder;
 
 function createTodo() {
 	let task = $('.todoInput').val();
@@ -49,13 +52,13 @@ function renderToDom(serverInfo) {
 		if (i.complete) {
 			$('.todoHome').append(`
 			<li id="taskComplete"><input type="checkbox" class="checkBox" checked data-id=${i.id}><span class="moveRight">${i.name}</span>
-				<i class="fa-solid fa-trash-can" data-id=${i.id} data-toggle="modal" data-target="#exampleModal"></i>
+				<i class="fa-solid fa-trash-can" data-id=${i.id} data-toggle="modal" data-target="#deleteConfirm"></i>
 			</li>
 		`);
 		} else {
 			$('.todoHome').append(`
 			<li><input type="checkbox" class="checkBox" data-id=${i.id}><span class="moveRight">${i.name}</span>
-				<i class="fa-solid fa-trash-can" data-id=${i.id} data-toggle="modal" data-target="#exampleModal"></i>
+				<i class="fa-solid fa-trash-can" data-id=${i.id} data-toggle="modal" data-target="#deleteConfirm"></i>
 			</li>
 		`);
 		}
@@ -88,13 +91,17 @@ function handleCheckBox() {
 		});
 }
 
+function getIdOnClick() {
+	idHolder = $(this).data('id');
+}
+
 function handleDelete() {
 	console.log('Clicked Delete');
-	const todoId = $(this).data('id');
+	// const todoId = $(this).data('id');
 
 	$.ajax({
 		type: 'DELETE',
-		url: `/todos/${todoId}`,
+		url: `/todos/${idHolder}`,
 	})
 		.then(() => {
 			console.log('It is gone!');
