@@ -27,3 +27,36 @@ function createTodo() {
 			console.log(error);
 		});
 }
+
+function getList() {
+	$.ajax({
+		type: 'GET',
+		url: '/tasks',
+	})
+		.then(function (response) {
+			console.log(response);
+			renderToDom(response);
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+}
+
+function renderToDom(serverInfo) {
+	$('.todoHome').empty();
+	for (let i of serverInfo) {
+		if (i.complete) {
+			$('.todoHome').append(`
+			<li id="taskComplete"><input type="checkbox" class="checkBox" checked><span class="moveRight">${i.name}</span>
+				<i class="fa-solid fa-trash-can"></i>
+			</li>
+		`);
+		} else {
+			$('.todoHome').append(`
+			<li><input type="checkbox" class="checkBox"><span class="moveRight">${i.name}</span>
+				<i class="fa-solid fa-trash-can"></i>
+			</li>
+		`);
+		}
+	}
+}
