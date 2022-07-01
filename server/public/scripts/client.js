@@ -51,8 +51,10 @@ function renderToDom(serverInfo) {
 	for (let i of serverInfo) {
 		if (i.complete) {
 			$('.todoHome').append(`
-			<li id="taskComplete"><input type="checkbox" class="checkBox" checked data-id=${i.id}><span class="moveRight">${i.name}</span>
+			<li id="taskComplete"><input type="checkbox" class="checkBox" checked data-id=${i.id}><span id="strikeOut" class="moveRight">${i.name}</span>
 				<i class="fa-solid fa-trash-can" data-id=${i.id} data-toggle="modal" data-target="#deleteConfirm"></i>
+				</br>
+				${i['date-completed']}
 			</li>
 		`);
 		} else {

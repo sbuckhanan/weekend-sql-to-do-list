@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../modules/pool.js');
+const moment = require('moment');
 
 router.get('/', (req, res) => {
 	const queryText = 'SELECT * FROM todos ORDER BY "complete";';
@@ -34,18 +35,21 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
 	const todoId = req.params.id;
 	const updateTodo = req.body;
+	let dateComplete;
 	let queryText;
 	// console.log(updateTodo);
 	// console.log(todoId);
 	if (updateTodo.complete === 'true') {
+		dateComplete = moment().format('LLL');
 		queryText = `
-        UPDATE "todos" SET "complete" = true WHERE id = $1;`;
+        UPDATE "todos" SET "complete" = true, "date-completed" = $2 WHERE id = $1;`;
 	} else {
-		queryText = `UPDATE "todos" SET "complete" = false WHERE id = $1;`;
+		dateComplete = null;
+		queryText = `UPDATE "todos" SET "complete" = false, "date-completed" = $2 WHERE id = $1;`;
 	}
 	// console.log(queryText);
 	pool
-		.query(queryText, [todoId])
+		.query(queryText, [todoId, dateComplete])
 		.then((result) => {
 			res.send(result.rows);
 			// console.log(result);

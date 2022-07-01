@@ -93,5 +93,7 @@ ul li {
 }
 #taskComplete {
 	background-color: green;
+}
+#strikeOut {
 	text-decoration: line-through;
 }
