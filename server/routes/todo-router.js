@@ -3,7 +3,7 @@ const router = express.Router();
 const pool = require('../modules/pool.js');
 
 router.get('/', (req, res) => {
-	const queryText = 'SELECT * FROM NAMEOFDB;';
+	const queryText = 'SELECT * FROM todos;';
 	pool
 		.query(queryText)
 		.then((result) => {
@@ -16,17 +16,17 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-	const newSong = req.body;
+	const newTodo = req.body;
 	const queryText = `
-        INSERT INTO NAMEOFDB (TABLE COLUMNS HERE) VALUES ($1, $2, $3, $4);`;
+        INSERT INTO todos (name, complete) VALUES ($1, $2);`;
 	pool
-		.query(queryText, [obj.prop1, obj.prop2, obj.prop3])
+		.query(queryText, [newTodo.name, newTodo.complete])
 		.then((result) => {
 			res.sendStatus(202);
 			console.log(result);
 		})
 		.catch((error) => {
-			console.log('There was an error in POST /NAMEOFROUTE', error);
+			console.log('There was an error in POST /todos', error);
 			res.sendStatus(500);
 		});
 });
